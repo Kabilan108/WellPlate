@@ -18,6 +18,8 @@ from PyQt5.QtWidgets import QVBoxLayout
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QWidget
+# We'lluse this to connect signals to methods that need extra arguments
+from functools import partial
 
 # Define prtoject variables
 __version__ = "0.1"
@@ -111,6 +113,45 @@ class PyCalcUI(QMainWindow):
         """Clear the display"""
         self.setDisplayText("")
 
+#! Controller Class
+# Next, we'll create the calculator's controller class. THis class will connect the view to the model.
+# We'll use the controller class to make the calculator perform actions in response to user events.
+# We'll use `functools.partial()` to connect signals with methods that need to take extra arguments.
+# The controller class needs to perform three main tasks:
+#   1. Acces the GUI's public interface
+#   2. Handle the creation of math expressions
+#   3.  Connect button `clicked` signals with the appropriate slots
+class PyCalcCtrl:
+    """PyCalc Controller class"""
+    def __init__(self, view):
+        """Controller Initializer"""
+        # First, we git PyCalcCtrl an instance of the view PyCalcUI.
+        # We'll use this instance to gain full access to view's public interface
+        self._view = view
+        # Connect signals and slots
+        self._connectSignals()
+
+    def _buildExpression(self, sub_exp):
+        """Build expression"""
+        # We'll use this to handle the creation of math expressions.
+        # This method also updates the calculator's display in response to user input
+        expression = self._view.displayText() + sub_exp
+        self._view.setDisplayText(expression)
+
+    def _connectSignals(self):
+        """Connect signals and slots"""
+        # Finally, this will connect the *printable* buttons with ._buildExpression().
+        # This will let us create math expressions by clicking calculator buttons
+        for btnText, btn in self._view.buttons.items():
+            if btnText not in {"=", "C"}:
+                btn.clicked.connect(partial(self._buildExpression, btnText))
+
+        # Here, we connect the clear button (C)  to ._view.clearDisplay() to erase display text.
+        self._view.buttons["C"].clicked.connect(self._view.clearDisplay)
+
+# Finally, we need to implement the calculator's model to allow the equals sign to work (=)
+
+
 # Client Side code: Main Fucntion
 def main():
     """Main function"""
@@ -119,6 +160,10 @@ def main():
     # Show the calculator GUI
     view = PyCalcUI()
     view.show()
+    # To make the controller class work, we need to create instances of the model
+    # and the controller
+    # This will initialize the controller and connect the signals and slots.
+    PyCalcCtrl(view=view)
     # Execute main loop
     sys.exit(pycalc.exec())
 

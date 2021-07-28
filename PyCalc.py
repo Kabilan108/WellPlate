@@ -123,17 +123,31 @@ class PyCalcUI(QMainWindow):
 #   3.  Connect button `clicked` signals with the appropriate slots
 class PyCalcCtrl:
     """PyCalc Controller class"""
-    def __init__(self, view):
+    def __init__(self, model, view):
         """Controller Initializer"""
         # First, we git PyCalcCtrl an instance of the view PyCalcUI.
         # We'll use this instance to gain full access to view's public interface
         self._view = view
+        self._evaluate = model
         # Connect signals and slots
         self._connectSignals()
+
+    def _calculateResult(self):
+        """Evaluate expressions"""
+        # Take the display's content, evaluate it as a math expression (using the model)
+        # and show the result in the display
+        result = self._evaluate(expression=self._view.displayText())
+        self._view.setDisplayText(result)
 
     def _buildExpression(self, sub_exp):
         """Build expression"""
         # We'll use this to handle the creation of math expressions.
+
+        # This checks if an error has occured. If so, then you clear the display and start
+        # witha new expression
+        if self._view.displayText() == ERROR_MSG:
+            self._view.clearDisplay()
+
         # This method also updates the calculator's display in response to user input
         expression = self._view.displayText() + sub_exp
         self._view.setDisplayText(expression)
@@ -146,11 +160,36 @@ class PyCalcCtrl:
             if btnText not in {"=", "C"}:
                 btn.clicked.connect(partial(self._buildExpression, btnText))
 
+        # Enable the equals sign
+        self._view.buttons["="].clicked.connect(self._calculateResult)
+        # Allow use of the `Enter` key
+        self._view.display.returnPressed.connect(self._calculateResult)
         # Here, we connect the clear button (C)  to ._view.clearDisplay() to erase display text.
         self._view.buttons["C"].clicked.connect(self._view.clearDisplay)
 
+#! The Model
 # Finally, we need to implement the calculator's model to allow the equals sign to work (=)
+# The model is the layer of the code that takes care of the business logic. In this case,
+# the business logic is all about basic math calculations.
+# The model will evaluate the math expressions introduced by the user.
 
+# Since the model needs to handle errors as well, we will define this global constant:
+ERROR_MSG = "What A Fuck Up!!! :-("
+
+# The model will be a single function
+def evaluateExpression(expression):
+    """Evaluate an expression"""
+    #! This block doesn't catch any specific exception
+    #! This function is based on `eval` which may lead to some security issues.
+    try:
+        # We'll use `eval()` to evaluate the string as an expression.
+        # If successful, then we return the result.
+        result = str(eval(expression, {}, {}))
+    except Exception:
+        # Otherwise, return our error message
+        result = ERROR_MSG
+
+    return result
 
 # Client Side code: Main Fucntion
 def main():
@@ -163,7 +202,8 @@ def main():
     # To make the controller class work, we need to create instances of the model
     # and the controller
     # This will initialize the controller and connect the signals and slots.
-    PyCalcCtrl(view=view)
+    model = evaluateExpression
+    PyCalcCtrl(model=model, view=view)
     # Execute main loop
     sys.exit(pycalc.exec())
 

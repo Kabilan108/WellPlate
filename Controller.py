@@ -13,3 +13,33 @@
     will deal with them as necessary, and will then update the GUI - as well
     as any associated data files / databases accordingly.
 """
+
+# Import libraries and modules
+from PyQt5.QtWidgets import QPushButton
+from functools import partial
+from View import *
+
+class PlateCtrl:
+    """Controller Class for WellPlate"""
+    def __init__(self, view, model):
+        """Controller Initializer"""
+        # First, we need to get an instance of the view
+        # This instance will allow access to the view's public interface
+        self.view = view
+        #self.evaluate = model
+        # Connect Signals and slots
+        self.connectSignals(view = self.view)
+
+    def wellPopUp(self, btnText, view):
+        """Initialize a Pop-Up Window on Btn Clicked"""
+        print("Button CLicked")
+        PopUp = WellModal(parent=view)
+        PopUp.setWindowTitle(btnText)
+        PopUp.setGeometry(0,0,100,30)
+        PopUp.show()
+
+    def connectSignals(self, view):
+        """Connect signals and slots"""
+        for btnText, btn in self.view.Wells.items():
+            if isinstance(btn, QPushButton):
+                btn.clicked.connect(partial(self.wellPopUp, btnText, view))

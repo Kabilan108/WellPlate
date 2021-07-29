@@ -1,3 +1,4 @@
+#!/home/kabilan/anaconda3/envs/pyTutorials/bin/python
 """Filename: WellPlate.py"""
 
 """
@@ -16,9 +17,23 @@
         - The user finnally sees the requested result as an update on the view.
 """
 
+# Import modules
+import sys
+from PyQt5.QtWidgets import QApplication
+from Controller import *
+from Model import *
+from View import *
+
 # Define Main Loop
 def main():
     """WellPlate Main Function"""
+    # Create QApplication instance
+    WellPlate = QApplication(sys.argv)
+    # Initialize View
+    view = Well96()
+    view.show()
+    PlateCtrl(view=view, model=None)
+    sys.exit(WellPlate.exec())
 
 if __name__ == "__main__":
     main()

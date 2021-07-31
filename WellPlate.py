@@ -30,9 +30,11 @@ def main():
     # Create QApplication instance
     WellPlate = QApplication(sys.argv)
     # Initialize View
-    view = Well96()
+    view = MainWindow()
     view.show()
-    PlateCtrl(view=view, model=None)
+    # Initialize Controller
+    ctrl = PlateCtrl(view=view, model=None)
+    # Execute main loop
     sys.exit(WellPlate.exec())
 
 if __name__ == "__main__":

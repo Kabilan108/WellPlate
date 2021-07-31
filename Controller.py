@@ -15,31 +15,79 @@
 """
 
 # Import libraries and modules
-from PyQt5.QtWidgets import QPushButton
+from PyQt5.QtWidgets import *
 from functools import partial
 from View import *
+from Model import *
 
 class PlateCtrl:
     """Controller Class for WellPlate"""
-    def __init__(self, view, model):
-        """Controller Initializer"""
+
+    def __init__(self, model, view):
+        """Class Initializer"""
         # First, we need to get an instance of the view
         # This instance will allow access to the view's public interface
         self.view = view
-        #self.evaluate = model
+        self.model = model
         # Connect Signals and slots
-        self.connectSignals(view = self.view)
+        self.connectSignals()
 
-    def wellPopUp(self, btnText, view):
-        """Initialize a Pop-Up Window on Btn Clicked"""
-        print("Button CLicked")
-        PopUp = WellModal(parent=view)
-        PopUp.setWindowTitle(btnText)
-        PopUp.setGeometry(0,0,100,30)
-        PopUp.show()
+    def launch94Plate(self):
+        """Launch 94-Well Plate Interface"""
+        # Set window properties
+        self.view.setWindowTitle("WellPlate: 94-Well Plate")
+        self.view.setFixedSize(800, 500)
+        # Create menus and toolbars
+        self.view.createActions()
+        self.view.createMenus()
+        self.view.createToolBars()
+        # Create plate layout and set is as the central widget
+        plateLayout = Plate96()
+        self.view.setCentralWidget(plateLayout)
 
-    def connectSignals(self, view):
-        """Connect signals and slots"""
-        for btnText, btn in self.view.Wells.items():
-            if isinstance(btn, QPushButton):
-                btn.clicked.connect(partial(self.wellPopUp, btnText, view))
+    def launch384Plate(self):
+        """Launch 384-Well Plate Interface"""
+        # Set window properties
+        self.view.setWindowTitle("WellPlate: 384-Well Plate")
+        self.view.setFixedSize(1200, 800)
+        # Create menus and toolbars
+        self.view.createActions()
+        self.view.createMenus()
+        self.view.createToolBars()
+        # Create plate layout and set is as the central widget
+        plateLayout = Plate384()
+        self.view.setCentralWidget(plateLayout)
+
+    def loadPlate(self):
+        """Load Saved Plate Interface"""
+        self.view.StartUpBtns["load"].setStyleSheet("background-color: red")
+
+    def connectSignals(self):
+        """Connect Signals and Slots"""
+
+        # Connect Start-Up Buttons
+        self.view.StartUpBtns["new94"].clicked.connect(self.launch94Plate)
+        self.view.StartUpBtns["new384"].clicked.connect(self.launch384Plate)
+        self.view.StartUpBtns["load"].clicked.connect(self.loadPlate)
+
+
+    # def connectSignals(self):
+    #     """Connect signals and slots"""
+
+    #     # Connect signals to welcome buttons
+    #     self.view.StartUpBtns["new94"].clicked.connect(self.launch94Plate)
+    #     self.view.StartUpBtns["new384"].clicked.connect(self.launch384Plate)
+    #     self.view.StartUpBtns["load"].clicked.connect(self.loadPlate)
+
+        # Connect signals to Well buttons
+        # for btnText, btn in self.view.Wells.items():
+        #     if isinstance(btn, QPushButton):
+        #         btn.clicked.connect(partial(self.wellPopUp, btnText, view))
+
+    # def wellPopUp(self, btnText, view):
+    #     """Initialize a Pop-Up Window on Btn Clicked"""
+    #     print("Button CLicked")
+    #     PopUp = WellModal(parent=view)
+    #     PopUp.setWindowTitle(btnText)
+    #     PopUp.setGeometry(0,0,100,30)
+    #     PopUp.show()

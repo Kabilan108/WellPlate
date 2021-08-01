@@ -25,15 +25,17 @@ class PlateCtrl:
 
     def __init__(self, model, view):
         """Class Initializer"""
+
         # First, we need to get an instance of the view
         # This instance will allow access to the view's public interface
         self.view = view
         self.model = model
         # Connect Signals and slots
-        self.connectSignals()
+        self.connectStartUpSignals()
 
     def launch94Plate(self):
         """Launch 94-Well Plate Interface"""
+
         # Set window properties
         self.view.setWindowTitle("WellPlate: 94-Well Plate")
         self.view.setFixedSize(800, 500)
@@ -44,12 +46,15 @@ class PlateCtrl:
         # Create plate layout and set is as the central widget
         plateLayout = Plate96()
         self.view.setCentralWidget(plateLayout)
+        # Connect signals and slots
+        self.connectActions()
 
     def launch384Plate(self):
         """Launch 384-Well Plate Interface"""
+
         # Set window properties
         self.view.setWindowTitle("WellPlate: 384-Well Plate")
-        self.view.setFixedSize(1200, 800)
+        self.view.setFixedSize(1400, 800)
         # Create menus and toolbars
         self.view.createActions()
         self.view.createMenus()
@@ -57,18 +62,30 @@ class PlateCtrl:
         # Create plate layout and set is as the central widget
         plateLayout = Plate384()
         self.view.setCentralWidget(plateLayout)
+        # Connect signals and slots
+        self.connectActions()
 
     def loadPlate(self):
         """Load Saved Plate Interface"""
         self.view.StartUpBtns["load"].setStyleSheet("background-color: red")
 
-    def connectSignals(self):
+    def terminate(self):
+        """Terminate Application"""
+        self.view.close()
+
+    def connectStartUpSignals(self):
         """Connect Signals and Slots"""
 
         # Connect Start-Up Buttons
         self.view.StartUpBtns["new94"].clicked.connect(self.launch94Plate)
         self.view.StartUpBtns["new384"].clicked.connect(self.launch384Plate)
         self.view.StartUpBtns["load"].clicked.connect(self.loadPlate)
+
+    def connectActions(self):
+        """Connect Menu and ToolBar Actions"""
+
+        # Connect menu actions
+        self.view.action_exit.triggered.connect(self.terminate)
 
 
     # def connectSignals(self):

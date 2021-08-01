@@ -1,6 +1,6 @@
-"""Filename: Controller.py"""
-
 """
+    Filename: Controller.py
+
     The controller connects the model and view to allow this Application to
     function as desired.
     User events (and requests) - from the *view* - are sent to the *controller*
@@ -19,6 +19,9 @@ from PyQt5.QtWidgets import *
 from functools import partial
 from View import *
 from Model import *
+
+# For generating random colors
+from random import randint
 
 class PlateCtrl:
     """Controller Class for WellPlate"""
@@ -67,7 +70,12 @@ class PlateCtrl:
 
     def loadPlate(self):
         """Load Saved Plate Interface"""
-        self.view.StartUpBtns["load"].setStyleSheet("background-color: red")
+        # Generate random color hex code
+        r = lambda: randint(0,255)
+        # Give button a random color
+        self.view.StartUpBtns["load"].setStyleSheet(
+                                        """font-size: 16px; font-weight: bold;
+                                           background-color: #%02X%02X%02X""" % (r(), r(), r()))
 
     def terminate(self):
         """Terminate Application"""

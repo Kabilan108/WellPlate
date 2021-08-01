@@ -1,7 +1,7 @@
 #!/home/kabilan/anaconda3/envs/pyTutorials/bin/python
-"""Filename: WellPlate.py"""
-
 """
+    Filename: WellPlate.py
+
     WellPlate is designed to allow for seamless management of 96-well and
     384-well plates by providing a user-friendly GUI.
 

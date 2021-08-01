@@ -8,10 +8,9 @@
 """
 
 # Import necessary modules
-from tkinter import Menubutton
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QIcon
 
 # Import qrc resources module
 # Generated using `pyrcc5 -o qrc_resources.py resources.qrc`
@@ -27,7 +26,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         # Set window properties
         self.setWindowTitle("Welcome to WellPlate")
-        self.setFixedSize(300, 150)
+        self.setFixedSize(300, 250)
         # Create base layout for window, and assign central widget
         self.baseLayout = QVBoxLayout()
         self.centralWidget = QWidget()
@@ -41,13 +40,25 @@ class MainWindow(QMainWindow):
 
         self.StartUpBtns = {}
 
+        # Create `new 94` button and set style
         self.StartUpBtns["new94"] = QPushButton("New 94-Well Plate")
+        self.StartUpBtns["new94"].setFixedHeight(50)
+        self.StartUpBtns["new94"].setStyleSheet(
+                                    "font-size: 16px; font-weight: bold; background-color: grey")
         self.baseLayout.addWidget(self.StartUpBtns["new94"])
 
+        # Create `new 384` button and set style
         self.StartUpBtns["new384"] = QPushButton("New 384-Well Plate")
+        self.StartUpBtns["new384"].setFixedHeight(50)
+        self.StartUpBtns["new384"].setStyleSheet(
+                                    "font-size: 16px; font-weight: bold; background-color: grey")
         self.baseLayout.addWidget(self.StartUpBtns["new384"])
 
+        # Create `load` button and set style
         self.StartUpBtns["load"] = QPushButton("Load Plate Layout")
+        self.StartUpBtns["load"].setFixedHeight(50)
+        self.StartUpBtns["load"].setStyleSheet(
+                                    "font-size: 16px; font-weight: bold; background-color: grey")
         self.baseLayout.addWidget(self.StartUpBtns["load"])
 
     def createActions(self):
@@ -101,7 +112,47 @@ class MainWindow(QMainWindow):
         toolBar_file.addSeparator()
         toolBar_file.setMovable(False)
 
-# * 96-Well Plate Interface Class
+    def sampleFormPopUp(self):
+        """Pop-Up Form for Sample Information"""
+
+        # Create widget instance
+        self.sample = QWidget()
+
+        # Set window properties
+        self.sample.setWindowTitle("Please Enter Sample Information")
+        self.sample.setFixedSize(400, 400)
+
+        # Create form layout
+        formLayout = QFormLayout()
+
+        self.SampleID = QLineEdit()
+        formLayout.addRow("Sample ID:", self.SampleID)
+
+        self.SampleVol = QLineEdit()
+        formLayout.addRow("Volume (uL):", self.SampleVol)
+
+        self.SampleType = QComboBox()
+        self.SampleType.addItems(["Serum", "DNA", "RNA", "NGS Library", "Other"])
+        formLayout.addRow("Sample Type:", self.SampleType)
+
+        self.SampleConc = QLineEdit()
+        formLayout.addRow("Concentration (ng/uL):", self.SampleConc)
+
+        self.SampleDescr = QTextEdit()
+        formLayout.addRow("Sample Description:", self.SampleDescr)
+
+        # Add `Save Button`
+        self.SampleSaveBtn = QPushButton("Save Sample")
+        self.SampleSaveBtn.setStyleSheet("""background-color: green; font-size: 15px""")
+        formLayout.addRow(self.SampleSaveBtn)
+
+        # Add form layout to widget
+        self.sample.setLayout(formLayout)
+
+        # Show pop-up
+        self.sample.show()
+
+# * 96-Well Plate Interface Clas
 class Plate96(QWidget):
     """Interface for 96-Well Plates"""
 
@@ -137,10 +188,15 @@ class Plate96(QWidget):
             if 0 in pos:
                 self.Wells[txt] = QLabel(txt)
                 self.Wells[txt].setAlignment(Qt.AlignCenter)
-                self.Wells[txt].setFixedSize(30, 30)
+                self.Wells[txt].setFixedSize(50, 30)
+                self.Wells[txt].setStyleSheet("""background-color: white; font-weight: bold;
+                                                 font-size: 20px""")
             else:
                 self.Wells[txt] = QPushButton(txt)
-                self.Wells[txt].setFixedSize(30, 30)
+                self.Wells[txt].setFixedSize(50, 30)
+                self.Wells[txt].setStyleSheet("background-color: grey; font-size: 14px")
+            # Set style for empty cell
+            self.Wells[" "].setStyleSheet("background-color: none")
             # Add button/label to layout
             wellLayout.addWidget(self.Wells[txt], pos[0], pos[1])
         # Add button layout to base well layout
@@ -189,10 +245,13 @@ class Plate384(QWidget):
             if 0 in pos:
                 self.Wells[txt] = QLabel(txt)
                 self.Wells[txt].setAlignment(Qt.AlignCenter)
-                self.Wells[txt].setFixedSize(30, 30)
+                self.Wells[txt].setFixedSize(50, 30)
+                self.Wells[txt].setStyleSheet("""background-color: white; font-weight: bold;
+                                                 font-size: 20px""")
             else:
                 self.Wells[txt] = QPushButton(txt)
-                self.Wells[txt].setFixedSize(30, 30)
+                self.Wells[txt].setFixedSize(50, 30)
+                self.Wells[txt].setStyleSheet("background-color: grey; font-size: 14px")
             # Add button/label to layout
             wellLayout.addWidget(self.Wells[txt], pos[0], pos[1])
         # Add button layout to base well layout

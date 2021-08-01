@@ -47,10 +47,12 @@ class PlateCtrl:
         self.view.createMenus()
         self.view.createToolBars()
         # Create plate layout and set is as the central widget
-        plateLayout = Plate96()
-        self.view.setCentralWidget(plateLayout)
+        self.plateLayout = Plate96()
+        self.view.setCentralWidget(self.plateLayout)
         # Connect signals and slots
         self.connectActions()
+        # Connect Plate Buttons
+        self.connectWells()
 
     def launch384Plate(self):
         """Launch 384-Well Plate Interface"""
@@ -63,13 +65,16 @@ class PlateCtrl:
         self.view.createMenus()
         self.view.createToolBars()
         # Create plate layout and set is as the central widget
-        plateLayout = Plate384()
-        self.view.setCentralWidget(plateLayout)
+        self.plateLayout = Plate384()
+        self.view.setCentralWidget(self.plateLayout)
         # Connect signals and slots
         self.connectActions()
+        # Connect Plate Buttons
+        self.connectWells()
 
     def loadPlate(self):
         """Load Saved Plate Interface"""
+
         # Generate random color hex code
         r = lambda: randint(0,255)
         # Give button a random color
@@ -94,6 +99,14 @@ class PlateCtrl:
 
         # Connect menu actions
         self.view.action_exit.triggered.connect(self.terminate)
+
+    def connectWells(self):
+        """Connect Wells (Buttons) to the Sample Pop-Up Method"""
+
+        # Connect signals for all buttons
+        for txt, btn in self.plateLayout.Wells.items():
+            if isinstance(btn, QPushButton):
+                btn.clicked.connect(partial(self.view.sampleForm, txt))
 
 
     # def connectSignals(self):

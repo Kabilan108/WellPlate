@@ -112,7 +112,7 @@ class MainWindow(QMainWindow):
         toolBar_file.addSeparator()
         toolBar_file.setMovable(False)
 
-    def sampleFormPopUp(self):
+    def sampleForm(self, txt = None):
         """Pop-Up Form for Sample Information"""
 
         # Create widget instance
@@ -124,6 +124,11 @@ class MainWindow(QMainWindow):
 
         # Create form layout
         formLayout = QFormLayout()
+
+        self.sampleWell = QLabel("Well " + txt)
+        self.sampleWell.setAlignment(Qt.AlignCenter)
+        self.sampleWell.setStyleSheet("font-size: 18px; font-weight: bold")
+        formLayout.addRow(self.sampleWell)
 
         self.SampleID = QLineEdit()
         formLayout.addRow("Sample ID:", self.SampleID)

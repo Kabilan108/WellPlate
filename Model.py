@@ -1,6 +1,6 @@
-"""Filename: Model.py"""
-
 """
+    Filename: Model.py
+
     This manages the logic flow of the application. It contains the core
     functionality and data management for the application.
 

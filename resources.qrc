@@ -8,5 +8,6 @@
     <file alias="edit-cut.svg">resources/edit-cut.svg</file>
     <file alias="edit-paste.svg">resources/edit-paste.svg</file>
     <file alias="help-content.svg">resources/help-content.svg</file>
+    <file alias="wellplate-logo.png">resources/wellplate-logo.png</file>
 </qresource>
 </RCC>

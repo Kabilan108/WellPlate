@@ -1,4 +1,4 @@
-#!/home/kabilan/anaconda3/envs/pyTutorials/bin/python
+#!/home/kabil/.anaconda3/envs/py-env/bin/python
 """
     Filename: WellPlate.py
 
@@ -19,7 +19,7 @@
 
 # Import modules
 import sys
-from PyQt5.QtWidgets import QApplication
+from PyQt6.QtWidgets import QApplication
 from Controller import *
 from Model import *
 from View import *

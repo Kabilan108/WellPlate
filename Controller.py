@@ -15,7 +15,7 @@
 """
 
 # Import libraries and modules
-from PyQt5.QtWidgets import *
+from PyQt6.QtWidgets import *
 from functools import partial
 from View import *
 from Model import *

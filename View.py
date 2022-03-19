@@ -8,9 +8,9 @@
 """
 
 # Import necessary modules
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QIcon, QAction
+from PyQt6.QtWidgets import *
 
 # Import qrc resources module
 # Generated using `pyrcc5 -o qrc_resources.py resources.qrc`
@@ -126,7 +126,7 @@ class MainWindow(QMainWindow):
         formLayout = QFormLayout()
 
         self.sampleWell = QLabel("Well " + txt)
-        self.sampleWell.setAlignment(Qt.AlignCenter)
+        self.sampleWell.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.sampleWell.setStyleSheet("font-size: 18px; font-weight: bold")
         formLayout.addRow(self.sampleWell)
 
@@ -192,7 +192,7 @@ class Plate96(QWidget):
         for txt, pos in buttons.items():
             if 0 in pos:
                 self.Wells[txt] = QLabel(txt)
-                self.Wells[txt].setAlignment(Qt.AlignCenter)
+                self.Wells[txt].setAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.Wells[txt].setFixedSize(50, 30)
                 self.Wells[txt].setStyleSheet("""background-color: white; font-weight: bold;
                                                  font-size: 20px""")
@@ -249,7 +249,7 @@ class Plate384(QWidget):
         for txt, pos in buttons.items():
             if 0 in pos:
                 self.Wells[txt] = QLabel(txt)
-                self.Wells[txt].setAlignment(Qt.AlignCenter)
+                self.Wells[txt].setAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.Wells[txt].setFixedSize(50, 30)
                 self.Wells[txt].setStyleSheet("""background-color: white; font-weight: bold;
                                                  font-size: 20px""")

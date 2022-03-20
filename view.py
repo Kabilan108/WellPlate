@@ -11,13 +11,12 @@
 from PyQt6.QtCore import Qt, QDir
 from PyQt6.QtGui import QIcon, QAction
 import PyQt6.QtWidgets as Widgets
-from PyQt6.QtWidgets import *
 
 # Set path to icons
 QDir.addSearchPath('icons', 'resources/')
 
 # * Main Window Class
-class MainWindow(QMainWindow):
+class MainWindow(Widgets.QMainWindow):
     """Application's Main Window"""
 
     def __init__(self):
@@ -161,7 +160,7 @@ class MainWindow(QMainWindow):
         self.sample.show()
 
 # * 96-Well Plate Interface Clas
-class Plate96(QWidget):
+class Plate96(Widgets.QWidget):
     """Interface for 96-Well Plates"""
 
     def __init__(self):
@@ -213,7 +212,7 @@ class Plate96(QWidget):
         self.setLayout(wellLayout)
 
 # * 384-Well Plate Interface Class
-class Plate384(QWidget):
+class Plate384(Widgets.QWidget):
     """Interface for 384-Well Plates"""
 
     def __init__(self):

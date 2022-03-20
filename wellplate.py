@@ -18,24 +18,24 @@
 """
 
 # Import modules
-import sys
 from PyQt6.QtWidgets import QApplication
-from Controller import *
-from Model import *
-from View import *
+import controller as ctrl
+import view
+import model
+import sys
 
 # Define Main Loop
 def main():
     """WellPlate Main Function"""
     # Create QApplication instance
-    WellPlate = QApplication(sys.argv)
+    wellplate = QApplication(sys.argv)
     # Initialize View
-    view = MainWindow()
-    view.show()
+    app_view = view.MainWindow()
+    app_view.show()
     # Initialize Controller
-    ctrl = PlateCtrl(view=view, model=None)
+    app_ctrl = ctrl.PlateCtrl(view=app_view, model=None)
     # Execute main loop
-    sys.exit(WellPlate.exec())
+    sys.exit(wellplate.exec())
 
 if __name__ == "__main__":
     main()

@@ -15,11 +15,11 @@
 """
 
 # Import libraries and modules
-
-from View import Plate96, Plate384
-#from Model import *
+from PyQt6.QtWidgets import QPushButton
 from functools import partial
 from random import randint
+import view
+import model
 
 class PlateCtrl:
     """Controller Class for WellPlate"""
@@ -45,7 +45,7 @@ class PlateCtrl:
         self.view.createMenus()
         self.view.createToolBars()
         # Create plate layout and set is as the central widget
-        self.plateLayout = Plate96()
+        self.plateLayout = view.Plate96()
         self.view.setCentralWidget(self.plateLayout)
         # Connect signals and slots
         self.connectActions()
@@ -63,7 +63,7 @@ class PlateCtrl:
         self.view.createMenus()
         self.view.createToolBars()
         # Create plate layout and set is as the central widget
-        self.plateLayout = Plate384()
+        self.plateLayout = view.Plate384()
         self.view.setCentralWidget(self.plateLayout)
         # Connect signals and slots
         self.connectActions()
@@ -76,9 +76,10 @@ class PlateCtrl:
         # Generate random color hex code
         r = lambda: randint(0,255)
         # Give button a random color
-        self.view.StartUpBtns["load"].setStyleSheet(
-                                        """font-size: 16px; font-weight: bold;
-                                           background-color: #%02X%02X%02X""" % (r(), r(), r()))
+        self.view.StartUpBtns["load"].setStyleSheet("""
+            font-size: 16px; font-weight: bold;
+            background-color: #%02X%02X%02X
+        """ % (r(), r(), r()))
 
     def terminate(self):
         """Terminate Application"""

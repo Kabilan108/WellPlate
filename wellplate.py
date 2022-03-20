@@ -27,13 +27,12 @@ import sys
 # Define Main Loop
 def main():
     """WellPlate Main Function"""
-    # Create QApplication instance
+
     wellplate = QApplication(sys.argv)
-    # Initialize View
     app_view = view.MainWindow()
     app_view.show()
-    # Initialize Controller
     app_ctrl = ctrl.PlateCtrl(view=app_view, model=None)
+    
     # Execute main loop
     sys.exit(wellplate.exec())
 
